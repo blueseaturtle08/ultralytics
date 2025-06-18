@@ -1128,6 +1128,31 @@ class C3k2(C2f):
         )
 
 
+# class DWConv(nn.Module):
+#     """Depthwise separable convolution block."""
+
+#     def __init__(self, c1: int, c2: int, k: int = 3, s: int = 1, p: int = None, act: bool = True):
+#         """
+#         Args:
+#             c1 (int): Input channels.
+#             c2 (int): Output channels.
+#             k (int): Kernel size.
+#             s (int): Stride.
+#             p (int): Padding (auto if None).
+#             act (bool): Whether to include activation.
+#         """
+#         super().__init__()
+#         if p is None:
+#             p = k // 2
+#         self.dw = nn.Conv2d(c1, c1, kernel_size=k, stride=s, padding=p, groups=c1, bias=False)
+#         self.pw = nn.Conv2d(c1, c2, kernel_size=1, stride=1, bias=False)
+#         self.bn = nn.BatchNorm2d(c2)
+#         self.act = nn.SiLU() if act else nn.Identity()
+
+#     def forward(self, x):
+#         return self.act(self.bn(self.pw(self.dw(x))))
+
+
 class C3k(C3):
     """C3k is a CSP bottleneck module with customizable kernel sizes for feature extraction in neural networks."""
 
@@ -2031,3 +2056,6 @@ class SAVPE(nn.Module):
         aggregated = score.transpose(-2, -3) @ x.reshape(B, self.c, C // self.c, -1).transpose(-1, -2)
 
         return F.normalize(aggregated.transpose(-2, -3).reshape(B, Q, -1), dim=-1, p=2)
+
+
+
